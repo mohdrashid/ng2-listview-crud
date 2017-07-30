@@ -86,7 +86,7 @@ export class Ng2ListViewCRUDComponent {
   }
 
   onAddClickListener() {
-    if(this.value!==""&&this.opType==="Add"){
+    if(this.value.length!==0&&this.opType==="Add"){
       if(this.listView.onAdd&&this.listView.onAdd(this.value)){
         this.append(this.value);
         this.value="";
@@ -95,7 +95,7 @@ export class Ng2ListViewCRUDComponent {
         console.log("Function onAdd not found");
       }
     }
-    else if(this.value!==""&&this.opType==="Edit"){
+    else if(this.value.length!==0&&this.opType==="Edit"){
       if(this.listView.onAdd&&this.listView.onUpdate(this.value)){
         this.items[this.selectedIndex]=this.value;
         this.value="";
