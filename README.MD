@@ -1,5 +1,7 @@
 # ng2-listview-crud
 
+This is a Angular JS 2/4 module that can be included in projects to automatically render a listview with built-in create, delete, update, read and search.
+
 ## Installation
 
 To install this library, run:
@@ -8,50 +10,68 @@ To install this library, run:
 $ npm install ng2-listview-crud --save
 ```
 
-## Consuming your library
+## Usage
+Declare this component in the declaration
 
-Once you have published your library to npm, you can import your library in any Angular application by running:
+    ```typescript
+        import { NgModule } from '@angular/core';
+        import {Ng2ListViewCRUD} from "ng2-listview-crud";
 
-```bash
-$ npm install ng2-listview-crud
-```
 
-and then from your Angular `AppModule`:
 
-```typescript
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+        @NgModule({
+          imports: [
+          ],
+          declarations: [ Ng2ListViewCRUD ],
+          providers: [  ]
+        })
+        export class MainWidgetModule { }
+    ```
 
-import { AppComponent } from './app.component';
+In the component
 
-// Import your library
-import { SampleModule } from 'ng2-listview-crud';
+    ```typescript
+    import { Component } from '@angular/core';
+    import {Ng2ListViewCRUDProperty} from "ng2-listview-crud";
 
-@NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
+    @Component({
+      templateUrl: './main.component.html',
+      selector:'widget-main'
+    })
+    export class MainWidgetComponent {
 
-    // Specify your library as an import
-    LibraryModule
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
-export class AppModule { }
-```
+      public listView:Ng2ListViewCRUDProperty= {
+        label: "CRUD ListView",
+        icon: "fa fa-list",
+        color: "#ffb53e",
+        onDelete: function (value) {
+          console.log("Deleting Value: " + value);
+          return true;
+        },
+        onUpdate: function (value) {
+          console.log("Editing Value: " + value);
+          return true;
+        },
+        onSearch: function () {
+        },
+        onAdd: function (value) {
+          console.log("Adding Value: " + value);
+          return true;
+        }
+      };
 
-Once your library is imported, you can use its components, directives and pipes in your Angular application:
+      public listItems:Array<Object>=["Apple","Orange","Banana","Grapes"];
+    }
+    ```
 
-```xml
-<!-- You can now use your library component in app.component.html -->
-<h1>
-  {{title}}
-</h1>
-<sampleComponent></sampleComponent>
-```
+
+
+
+Place the ng2-listview-crud selector in your component's html:
+
+  ```html
+     <ng2-listview-crud [properties]="listView" [data]="listItems"></ng2-listview-crud>
+   ```
 
 ## Development
 
