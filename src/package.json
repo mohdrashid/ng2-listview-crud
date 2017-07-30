@@ -1,0 +1,31 @@
+{
+  "name": "ng2-listview-crud",
+  "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mohdrashid/ng2-listview-crud"
+  },
+  "author": {
+    "name": "Mohammed Rashid",
+    "email": "mohmad.rashid@hotmail.com"
+  },
+  "description": "Renders a listview with built-in create,read,update,delete and search functionality",
+  "keywords": [
+    "Angular",
+    "Library",
+    "List",
+    "ListView",
+    "Create","Read","Update","Delete","Search"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mohdrashid/ng2-listview-crud/issues"
+  },
+  "module": "ng2-listview-crud.js",
+  "typings": "ng2-listview-crud.d.ts",
+  "peerDependencies": {
+    "@angular/core": "^4.0.0",
+    "rxjs": "^5.1.0",
+    "zone.js": "^0.8.4"
+  }
+}
