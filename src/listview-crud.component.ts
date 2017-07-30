@@ -86,7 +86,7 @@ export class Ng2ListViewCRUDComponent {
   }
 
   onAddClickListener() {
-    if(this.opType==="Add"){
+    if(this.value!==""&&this.opType==="Add"){
       if(this.listView.onAdd&&this.listView.onAdd(this.value)){
         this.append(this.value);
         this.value="";
