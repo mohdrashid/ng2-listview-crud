@@ -55,7 +55,7 @@ In the component
           console.log("Editing Value: "+value);
           return true;
         },
-        onSearch:function(){},
+        onSearch:function(value){},
         onAdd:function(value){
           console.log("Adding Value: "+value);
           return true;

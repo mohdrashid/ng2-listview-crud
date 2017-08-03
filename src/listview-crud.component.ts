@@ -116,8 +116,12 @@ export class Ng2ListViewCRUDComponent {
     if(!this.properties.dataIsObject){
       return item;
     }
+    if(!item[this.properties.path[0]])
+      return;
     let data:any=item[this.properties.path[0]];
     for(let i=1;i<this.properties.path.length;i++){
+      if(data[this.properties.path[i]])
+        return;
       data=data[this.properties.path[i]];
     }
     return data;
