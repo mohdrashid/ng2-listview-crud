@@ -9,13 +9,13 @@
 
         {{getData(item)}}
         <div class="pull-right action-buttons">
-          <a href="javascript:void(0)" (click)="onEditClickListener(i)"><i class="fa fa-pencil fa-fw"></i> </a>
-          <a href="javascript:void(0)" (click)="onDeleteClickListener(i)"><i class="fa-fw fa fa-remove"></i> </a>
+          <a href="javascript:void(0)" (click)="onEditClickListener(i)" [hidden]="!properties['edit']"><i class="fa fa-pencil fa-fw"></i> </a>
+          <a href="javascript:void(0)" (click)="onDeleteClickListener(i)" [hidden]="!properties['remove']"><i class="fa-fw fa fa-remove"></i> </a>
         </div>
       </li>
     </ul>
   </div>
-  <div class="panel-footer">
+  <div class="panel-footer" [hidden]="!properties['add']">
     <div class="input-group">
       <input type="text" class="form-control input-md" placeholder="Add" [(ngModel)]="value">
       <span class="input-group-btn">

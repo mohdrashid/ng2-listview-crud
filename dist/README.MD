@@ -40,6 +40,9 @@ In the component [For simple array]
     export class MainWidgetComponent {
 
       public listView:Ng2ListViewCRUDProperty= {
+        add:true,//Adding possible
+        remove:true,//Removing elements possible
+        edit:true,//editing possible
         dataIsObject:false,
         path:[],
         label:"CRUD ListView",
@@ -90,6 +93,9 @@ In the component [For nested structure]
     export class MainWidgetComponent {
 
       public listView:Ng2ListViewCRUDProperty= {
+        add:true,//Adding possible
+        remove:true,//Removing elements possible
+        edit:true,//editing possible  
         dataIsObject:true,
         path:["name","first"],
         label:"CRUD ListView",

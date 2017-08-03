@@ -3,6 +3,9 @@
  */
 export interface Ng2ListViewCRUDProperty{
   dataIsObject:boolean;
+  add:boolean;
+  edit:boolean;
+  remove:boolean;
   path:Array<string>;
   label:string;
   headingBackgroundColor:string;
