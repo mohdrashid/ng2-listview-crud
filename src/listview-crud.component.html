@@ -1,6 +1,6 @@
 <div class="panel">
-  <div class="panel-heading" [style.background]="listView['color']">
-    <i [class]="listView['icon']" style="margin-right: 10px"></i>{{listView['label']}}
+  <div class="panel-heading" [style.background]="properties['headingBackgroundColor']" [style.color]="properties['headingFontColor']">
+    <i [class]="properties['icon']" style="margin-right: 10px"></i>{{properties['label']}}
   </div>
   <input type="text" class="form-control searchBoxListView" placeholder="Search...." [(ngModel)]="search" (keyup)="onChangeListener($event)">
   <div class="panel-body">

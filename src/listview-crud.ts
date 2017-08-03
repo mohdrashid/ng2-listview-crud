@@ -3,10 +3,13 @@
  */
 export interface Ng2ListViewCRUDProperty{
   label:string;
-  color:string;
+  headingBackgroundColor:string;
+  headingFontColor:string;
   icon:string;
+  onSelect:any;
   onDelete:any;
   onUpdate:any;
   onSearch:any;
+  onSearchChange:any;
   onAdd:any;
 }

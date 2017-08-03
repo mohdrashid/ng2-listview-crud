@@ -17,24 +17,7 @@ export class Ng2ListViewCRUDComponent {
   public value:string="";
   public search:string="";
   public opType:string="Add";
-  @Input('properties') listView:Ng2ListViewCRUDProperty={
-    label:"CRUD ListView",
-    color:"#3752ff",
-    icon:"fa fa-cogs",
-    onDelete:function(value){
-      console.log("Deleting Value: "+value);
-      return true;
-    },
-    onUpdate:function(value){
-      console.log("Editing Value: "+value);
-      return true;
-    },
-    onSearch:function(){},
-    onAdd:function(value){
-      console.log("Adding Value: "+value);
-      return true;
-    }
-  };
+  @Input('properties') properties:Ng2ListViewCRUDProperty;
 
   @Input('data') items:Array<any>=[
     "Hello Worlds"
@@ -45,10 +28,11 @@ export class Ng2ListViewCRUDComponent {
   public selectedIndex:number;
 
   constructor(){
+
   }
 
   ngOnInit(){
-    this.listView.icon+=" fa-fw";
+    this.properties.icon+=" fa-fw";
     this.subData=this.items;
 
   }
@@ -63,6 +47,7 @@ export class Ng2ListViewCRUDComponent {
       else {
         self.selectedIndex=$(this).attr('id');
         $(this).addClass('selected');
+        self.properties.onSelect($(this).val());
       }
     });
   }
@@ -74,6 +59,7 @@ export class Ng2ListViewCRUDComponent {
       this.subData=this.items;
       return;
     }
+    this.properties.onSearchChange(self.search)
     let result=this.items.filter(function(lhs){
       return lhs.match(self.search);
     });
@@ -87,7 +73,7 @@ export class Ng2ListViewCRUDComponent {
 
   onAddClickListener() {
     if(this.value.length!==0&&this.opType==="Add"){
-      if(this.listView.onAdd&&this.listView.onAdd(this.value)){
+      if(this.properties.onAdd&&this.properties.onAdd(this.value)){
         this.append(this.value);
         this.value="";
       }
@@ -96,7 +82,7 @@ export class Ng2ListViewCRUDComponent {
       }
     }
     else if(this.value.length!==0&&this.opType==="Edit"){
-      if(this.listView.onAdd&&this.listView.onUpdate(this.value)){
+      if(this.properties.onAdd&&this.properties.onUpdate(this.value)){
         this.items[this.selectedIndex]=this.value;
         this.value="";
         this.opType="Add";
@@ -123,7 +109,7 @@ export class Ng2ListViewCRUDComponent {
 
   onDeleteClickListener(index){
     this.selectedIndex=index;
-    if(this.listView.onDelete&&this.listView.onDelete(this.get(this.selectedIndex))){
+    if(this.properties.onDelete&&this.properties.onDelete(this.get(this.selectedIndex))){
       this.delete(this.selectedIndex);
     }
   }

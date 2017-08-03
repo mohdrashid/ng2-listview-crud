@@ -41,23 +41,29 @@ In the component
     export class MainWidgetComponent {
 
       public listView:Ng2ListViewCRUDProperty= {
-        label: "CRUD ListView",
-        icon: "fa fa-list",
-        color: "#ffb53e",
-        onDelete: function (value) {
-          console.log("Deleting Value: " + value);
+        label:"CRUD ListView",
+        headingBackgroundColor:"#3752ff",
+        headingFontColor:"#5f6468",
+        icon:"fa fa-cogs",
+        onDelete:function(value){
+          console.log("Deleting Value: "+value);
           return true;
         },
-        onUpdate: function (value) {
-          console.log("Editing Value: " + value);
+        onUpdate:function(value){
+          console.log("Editing Value: "+value);
           return true;
         },
-        onSearch: function () {
-        },
-        onAdd: function (value) {
-          console.log("Adding Value: " + value);
+        onSearch:function(){},
+        onAdd:function(value){
+          console.log("Adding Value: "+value);
           return true;
-        }
+        },
+        onSelect:function(value){
+          console.log(value)
+        },
+        onSearchChange:function(value){
+          console.log(value)
+        }      
       };
 
       public listItems:Array<Object>=["Apple","Orange","Banana","Grapes"];
