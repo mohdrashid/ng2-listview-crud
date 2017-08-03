@@ -19,9 +19,7 @@ export class Ng2ListViewCRUDComponent {
   public opType:string="Add";
   @Input('properties') properties:Ng2ListViewCRUDProperty;
 
-  @Input('data') items:Array<any>=[
-    "Hello Worlds"
-  ];
+  @Input('data') items:Array<any>;
 
   public subData:Array<any>;
 
@@ -112,6 +110,17 @@ export class Ng2ListViewCRUDComponent {
     if(this.properties.onDelete&&this.properties.onDelete(this.get(this.selectedIndex))){
       this.delete(this.selectedIndex);
     }
+  }
+
+  getData(item){
+    if(!this.properties.dataIsObject){
+      return item;
+    }
+    let data:any=item[this.properties.path[0]];
+    for(let i=1;i<this.properties.path.length;i++){
+      data=data[this.properties.path[i]];
+    }
+    return data;
   }
 
 }

@@ -2,6 +2,8 @@
  * Created by mohma on 7/26/2017.
  */
 export interface Ng2ListViewCRUDProperty{
+  dataIsObject:boolean;
+  path:Array<string>;
   label:string;
   headingBackgroundColor:string;
   headingFontColor:string;

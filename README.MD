@@ -41,6 +41,8 @@ In the component
     export class MainWidgetComponent {
 
       public listView:Ng2ListViewCRUDProperty= {
+        dataIsObject:true,
+        path:["name","first"],
         label:"CRUD ListView",
         headingBackgroundColor:"#3752ff",
         headingFontColor:"#5f6468",
@@ -66,7 +68,12 @@ In the component
         }      
       };
 
-      public listItems:Array<Object>=["Apple","Orange","Banana","Grapes"];
+      //In this specific example the field name.first is displayed in the list
+      public listItems:Array<Object>=
+      [
+      {name:{first:"Hello",last:"World"},count:2}
+      {name:{first:"Hello2",last:"World"},count:2}
+      ];
     }
     ```
 
