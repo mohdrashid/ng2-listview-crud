@@ -3,7 +3,7 @@ export declare class Ng2ListViewCRUDComponent {
     value: string;
     search: string;
     opType: string;
-    listView: Ng2ListViewCRUDProperty;
+    properties: Ng2ListViewCRUDProperty;
     items: Array<any>;
     subData: Array<any>;
     selectedIndex: number;
@@ -17,4 +17,5 @@ export declare class Ng2ListViewCRUDComponent {
     delete(index: any): void;
     get(index: any): any;
     onDeleteClickListener(index: any): void;
+    getData(item: any): any;
 }

@@ -12,33 +12,12 @@ var Ng2ListViewCRUDComponent = (function () {
         this.value = "";
         this.search = "";
         this.opType = "Add";
-        this.listView = {
-            label: "CRUD ListView",
-            color: "#3752ff",
-            icon: "fa fa-cogs",
-            onDelete: function (value) {
-                console.log("Deleting Value: " + value);
-                return true;
-            },
-            onUpdate: function (value) {
-                console.log("Editing Value: " + value);
-                return true;
-            },
-            onSearch: function () { },
-            onAdd: function (value) {
-                console.log("Adding Value: " + value);
-                return true;
-            }
-        };
-        this.items = [
-            "Hello Worlds"
-        ];
     }
     /**
      * @return {?}
      */
     Ng2ListViewCRUDComponent.prototype.ngOnInit = function () {
-        this.listView.icon += " fa-fw";
+        this.properties.icon += " fa-fw";
         this.subData = this.items;
     };
     /**
@@ -54,6 +33,7 @@ var Ng2ListViewCRUDComponent = (function () {
             else {
                 self.selectedIndex = $(this).attr('id');
                 $(this).addClass('selected');
+                self.properties.onSelect($(this).val());
             }
         });
     };
@@ -67,6 +47,7 @@ var Ng2ListViewCRUDComponent = (function () {
             this.subData = this.items;
             return;
         }
+        this.properties.onSearchChange(self.search);
         var /** @type {?} */ result = this.items.filter(function (lhs) {
             return lhs.match(self.search);
         });
@@ -84,7 +65,7 @@ var Ng2ListViewCRUDComponent = (function () {
      */
     Ng2ListViewCRUDComponent.prototype.onAddClickListener = function () {
         if (this.value.length !== 0 && this.opType === "Add") {
-            if (this.listView.onAdd && this.listView.onAdd(this.value)) {
+            if (this.properties.onAdd && this.properties.onAdd(this.value)) {
                 this.append(this.value);
                 this.value = "";
             }
@@ -93,7 +74,7 @@ var Ng2ListViewCRUDComponent = (function () {
             }
         }
         else if (this.value.length !== 0 && this.opType === "Edit") {
-            if (this.listView.onAdd && this.listView.onUpdate(this.value)) {
+            if (this.properties.onAdd && this.properties.onUpdate(this.value)) {
                 this.items[this.selectedIndex] = this.value;
                 this.value = "";
                 this.opType = "Add";
@@ -132,15 +113,29 @@ var Ng2ListViewCRUDComponent = (function () {
      */
     Ng2ListViewCRUDComponent.prototype.onDeleteClickListener = function (index) {
         this.selectedIndex = index;
-        if (this.listView.onDelete && this.listView.onDelete(this.get(this.selectedIndex))) {
+        if (this.properties.onDelete && this.properties.onDelete(this.get(this.selectedIndex))) {
             this.delete(this.selectedIndex);
         }
+    };
+    /**
+     * @param {?} item
+     * @return {?}
+     */
+    Ng2ListViewCRUDComponent.prototype.getData = function (item) {
+        if (!this.properties.dataIsObject) {
+            return item;
+        }
+        var /** @type {?} */ data = item[this.properties.path[0]];
+        for (var /** @type {?} */ i = 1; i < this.properties.path.length; i++) {
+            data = data[this.properties.path[i]];
+        }
+        return data;
     };
     return Ng2ListViewCRUDComponent;
 }());
 Ng2ListViewCRUDComponent.decorators = [
     { type: _angular_core.Component, args: [{
-                template: "<div class=\"panel\"> <div class=\"panel-heading\" [style.background]=\"listView['color']\"> <i [class]=\"listView['icon']\" style=\"margin-right: 10px\"></i>{{listView['label']}} </div> <input type=\"text\" class=\"form-control searchBoxListView\" placeholder=\"Search....\" [(ngModel)]=\"search\" (keyup)=\"onChangeListener($event)\"> <div class=\"panel-body\"> <ul class=\"todo-list\"> <li *ngFor=\"let item of subData; index as i\" class=\"todo-list-item\" [id]=\"i\" > {{item}} <div class=\"pull-right action-buttons\"> <a href=\"javascript:void(0)\" (click)=\"onEditClickListener(i)\"><i class=\"fa fa-pencil fa-fw\"></i> </a> <a href=\"javascript:void(0)\" (click)=\"onDeleteClickListener(i)\"><i class=\"fa-fw fa fa-remove\"></i> </a> </div> </li> </ul> </div> <div class=\"panel-footer\"> <div class=\"input-group\"> <input type=\"text\" class=\"form-control input-md\" placeholder=\"Add\" [(ngModel)]=\"value\"> <span class=\"input-group-btn\"> <button class=\"btn btn-success btn-md\" id=\"btn-todo\" (click)=\"onAddClickListener()\">{{opType}}</button> </span> </div> </div> </div> ",
+                template: "<div class=\"panel\"> <div class=\"panel-heading\" [style.background]=\"properties['headingBackgroundColor']\" [style.color]=\"properties['headingFontColor']\"> <i [class]=\"properties['icon']\" style=\"margin-right: 10px\"></i>{{properties['label']}} </div> <input type=\"text\" class=\"form-control searchBoxListView\" placeholder=\"Search....\" [(ngModel)]=\"search\" (keyup)=\"onChangeListener($event)\"> <div class=\"panel-body\"> <ul class=\"todo-list\"> <li *ngFor=\"let item of subData; index as i\" class=\"todo-list-item\" [id]=\"i\" > {{getData(item)}} <div class=\"pull-right action-buttons\"> <a href=\"javascript:void(0)\" (click)=\"onEditClickListener(i)\"><i class=\"fa fa-pencil fa-fw\"></i> </a> <a href=\"javascript:void(0)\" (click)=\"onDeleteClickListener(i)\"><i class=\"fa-fw fa fa-remove\"></i> </a> </div> </li> </ul> </div> <div class=\"panel-footer\"> <div class=\"input-group\"> <input type=\"text\" class=\"form-control input-md\" placeholder=\"Add\" [(ngModel)]=\"value\"> <span class=\"input-group-btn\"> <button class=\"btn btn-success btn-md\" id=\"btn-todo\" (click)=\"onAddClickListener()\">{{opType}}</button> </span> </div> </div> </div> ",
                 selector: 'ng2-listview-crud',
                 styles: [".selected { background: bisque; } /*Todo List Widget*/ .todo-list-item .glyphicon { margin-right: 5px; color: #9fadbb; } .todo-list-item .glyphicon:hover { margin-right: 5px; color: #1b3548; } .todo-list { padding: 0; margin: -15px; background: #fff; color: #5f6468; } #checkbox { margin: 0; } .todo-list .checkbox { display: inline-block; margin: 0px; } .panel-body input[type=checkbox]:checked + label { text-decoration: line-through; color: #777; } .todo-list-item { list-style: none; line-height: 0.9; padding: 14px 15px 8px 15px; } .todo-list-item:hover, a.todo-list-item:focus { text-decoration: none; background-color: #f6f6f6; } .todo-list-item .trash .glyph:hover { color: #ef4040; } .searchBoxListView { border-radius: 0px; } ul li a { text-decoration: none; } ul li div { display: none; } ul li:hover div { display: inline; } "]
             },] },
@@ -150,7 +145,7 @@ Ng2ListViewCRUDComponent.decorators = [
  */
 Ng2ListViewCRUDComponent.ctorParameters = function () { return []; };
 Ng2ListViewCRUDComponent.propDecorators = {
-    'listView': [{ type: _angular_core.Input, args: ['properties',] },],
+    'properties': [{ type: _angular_core.Input, args: ['properties',] },],
     'items': [{ type: _angular_core.Input, args: ['data',] },],
 };
 
