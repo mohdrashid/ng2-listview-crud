@@ -27,8 +27,57 @@ Declare this component in the declaration
         })
         export class MainWidgetModule { }
     ```
+In the component [For simple array]
 
-In the component
+    ```typescript
+    import { Component } from '@angular/core';
+    import {Ng2ListViewCRUDProperty} from "ng2-listview-crud";
+
+    @Component({
+      templateUrl: './main.component.html',
+      selector:'widget-main'
+    })
+    export class MainWidgetComponent {
+
+      public listView:Ng2ListViewCRUDProperty= {
+        dataIsObject:false,
+        path:[],
+        label:"CRUD ListView",
+        headingBackgroundColor:"#3752ff",
+        headingFontColor:"#5f6468",
+        icon:"fa fa-cogs",
+        onDelete:function(value){
+          console.log("Deleting Value: "+JSON.stringify(value));
+          return true;
+        },
+        onUpdate:function(value,newValue){
+          console.log("Editing Value: "+JSON.stringify(value)+" New Value:"+newValue);
+          return true;
+        },
+        onSearch:function(value){
+          console.log(value)
+        },
+        onAdd:function(value){
+          console.log("Adding Value: "+JSON.stringify(value));
+          return true;
+        },
+        onSelect:function(value){
+          console.log(JSON.stringify(value));
+        },
+        onSearchChange:function(value){
+          console.log(value)
+        }  
+      };
+
+      //In this specific example the field name.first is displayed in the list
+      public listItems:Array<Object>=
+      [
+      "Apple","Orange"
+      ];
+    }
+    ```
+    
+In the component [For nested structure]
 
     ```typescript
     import { Component } from '@angular/core';
@@ -48,24 +97,26 @@ In the component
         headingFontColor:"#5f6468",
         icon:"fa fa-cogs",
         onDelete:function(value){
-          console.log("Deleting Value: "+value);
+          console.log("Deleting Value: "+JSON.stringify(value));
           return true;
         },
-        onUpdate:function(value){
-          console.log("Editing Value: "+value);
+        onUpdate:function(value,newValue){
+          console.log("Editing Value: "+JSON.stringify(value)+" New Value:"+newValue);
           return true;
         },
-        onSearch:function(value){},
+        onSearch:function(value){
+          console.log(value)
+        },
         onAdd:function(value){
-          console.log("Adding Value: "+value);
+          console.log("Adding Value: "+JSON.stringify(value));
           return true;
         },
         onSelect:function(value){
-          console.log(value)
+          console.log(JSON.stringify(value));
         },
         onSearchChange:function(value){
           console.log(value)
-        }      
+        }  
       };
 
       //In this specific example the field name.first is displayed in the list

@@ -19,6 +19,13 @@ var Ng2ListViewCRUDComponent = (function () {
     Ng2ListViewCRUDComponent.prototype.ngOnInit = function () {
         this.properties.icon += " fa-fw";
         this.subData = this.items;
+        this.path = "";
+        for (var /** @type {?} */ i = 0; i < this.properties.path.length; i++) {
+            this.path += this.properties.path[i];
+            if (i !== this.properties.path.length - 1) {
+                this.path += ".";
+            }
+        }
     };
     /**
      * @return {?}
@@ -33,7 +40,7 @@ var Ng2ListViewCRUDComponent = (function () {
             else {
                 self.selectedIndex = $(this).attr('id');
                 $(this).addClass('selected');
-                self.properties.onSelect($(this).val());
+                self.properties.onSelect(self.items[self.selectedIndex]);
             }
         });
     };
@@ -49,24 +56,82 @@ var Ng2ListViewCRUDComponent = (function () {
         }
         this.properties.onSearchChange(self.search);
         var /** @type {?} */ result = this.items.filter(function (lhs) {
-            return lhs.match(self.search);
+            var /** @type {?} */ data = lhs;
+            if (self.properties.dataIsObject) {
+                if (!lhs[self.properties.path[0]])
+                    return false;
+                data = lhs[self.properties.path[0]];
+                for (var /** @type {?} */ i = 1; i < self.properties.path.length; i++) {
+                    if (data[self.properties.path[i]])
+                        data = data[self.properties.path[i]];
+                    else {
+                        return false;
+                    }
+                }
+            }
+            return data.match(self.search);
         });
         this.subData = result;
+    };
+    /**
+     * @param {?} obj
+     * @param {?} path
+     * @param {?} newValue
+     * @return {?}
+     */
+    Ng2ListViewCRUDComponent.prototype.changeJSONValue = function (obj, path, newValue) {
+        var /** @type {?} */ parts = path.split('.');
+        while (parts.length > 1 && (obj = obj[parts.shift()])) { }
+        
+        obj[parts.shift()] = newValue;
+        return obj;
+    };
+    /**
+     * @param {?} obj
+     * @return {?}
+     */
+    Ng2ListViewCRUDComponent.prototype.getJSONValue = function (obj) {
+        if (!obj[this.properties.path[0]])
+            return "Not Available";
+        var /** @type {?} */ data = obj[this.properties.path[0]];
+        for (var /** @type {?} */ i = 1; i < this.properties.path.length; i++) {
+            if (!data[this.properties.path[i]])
+                return "Not Available";
+            data = data[this.properties.path[i]];
+        }
+        return data;
     };
     /**
      * @param {?} value
      * @return {?}
      */
     Ng2ListViewCRUDComponent.prototype.append = function (value) {
-        this.items.push(value);
+        var /** @type {?} */ data = value;
+        if (this.properties.dataIsObject) {
+            data = "";
+            var /** @type {?} */ closing = "";
+            for (var /** @type {?} */ i = 0; i < this.properties.path.length; i++) {
+                data += "{\"";
+                data += this.properties.path[i] + "\":";
+                closing += "}";
+            }
+            data += ('"' + value + '"' + closing);
+            try {
+                data = JSON.parse(data);
+            }
+            catch (e) {
+                throw e;
+            }
+        }
+        this.items.push(data);
+        return data;
     };
     /**
      * @return {?}
      */
     Ng2ListViewCRUDComponent.prototype.onAddClickListener = function () {
         if (this.value.length !== 0 && this.opType === "Add") {
-            if (this.properties.onAdd && this.properties.onAdd(this.value)) {
-                this.append(this.value);
+            if (this.properties.onAdd && this.properties.onAdd(this.append(this.value))) {
                 this.value = "";
             }
             else {
@@ -74,8 +139,13 @@ var Ng2ListViewCRUDComponent = (function () {
             }
         }
         else if (this.value.length !== 0 && this.opType === "Edit") {
-            if (this.properties.onAdd && this.properties.onUpdate(this.value)) {
-                this.items[this.selectedIndex] = this.value;
+            if (this.properties.onAdd && this.properties.onUpdate(this.items[this.selectedIndex], this.value)) {
+                if (!this.properties.dataIsObject) {
+                    this.items[this.selectedIndex] = this.value;
+                }
+                else {
+                    this.changeJSONValue(this.items[this.selectedIndex], this.path, this.value);
+                }
                 this.value = "";
                 this.opType = "Add";
             }
@@ -90,7 +160,18 @@ var Ng2ListViewCRUDComponent = (function () {
      */
     Ng2ListViewCRUDComponent.prototype.onEditClickListener = function (index) {
         this.selectedIndex = index;
-        this.value = this.items[this.selectedIndex];
+        if (!this.properties.dataIsObject)
+            this.value = this.items[this.selectedIndex];
+        else {
+            var /** @type {?} */ data = this.items[this.selectedIndex][this.properties.path[0]];
+            for (var /** @type {?} */ i = 1; i < this.properties.path.length; i++) {
+                if (!data[this.properties.path[i]]) {
+                    return null;
+                }
+                data = data[this.properties.path[i]];
+            }
+            this.value = data;
+        }
         this.opType = "Edit";
     };
     /**
@@ -125,15 +206,7 @@ var Ng2ListViewCRUDComponent = (function () {
         if (!this.properties.dataIsObject) {
             return item;
         }
-        if (!item[this.properties.path[0]])
-            return;
-        var /** @type {?} */ data = item[this.properties.path[0]];
-        for (var /** @type {?} */ i = 1; i < this.properties.path.length; i++) {
-            if (data[this.properties.path[i]])
-                return;
-            data = data[this.properties.path[i]];
-        }
-        return data;
+        return this.getJSONValue(item);
     };
     return Ng2ListViewCRUDComponent;
 }());

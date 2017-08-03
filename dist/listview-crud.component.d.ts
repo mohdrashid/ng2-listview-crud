@@ -7,13 +7,16 @@ export declare class Ng2ListViewCRUDComponent {
     items: Array<any>;
     subData: Array<any>;
     selectedIndex: number;
+    path: any;
     constructor();
     ngOnInit(): void;
     ngAfterViewInit(): void;
     onChangeListener($event: any): void;
-    append(value: any): void;
+    changeJSONValue(obj: any, path: any, newValue: any): void;
+    getJSONValue(obj: any): string;
+    append(value: any): any;
     onAddClickListener(): void;
-    onEditClickListener(index: any): void;
+    onEditClickListener(index: any): any;
     delete(index: any): void;
     get(index: any): any;
     onDeleteClickListener(index: any): void;
