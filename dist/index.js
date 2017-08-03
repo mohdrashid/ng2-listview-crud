@@ -12,6 +12,13 @@ var Ng2ListViewCRUDComponent = (function () {
         this.opType = "Add";
     }
     /**
+     * @param {?} changes
+     * @return {?}
+     */
+    Ng2ListViewCRUDComponent.prototype.ngOnChanges = function (changes) {
+        this.subData = this.items;
+    };
+    /**
      * @return {?}
      */
     Ng2ListViewCRUDComponent.prototype.ngOnInit = function () {

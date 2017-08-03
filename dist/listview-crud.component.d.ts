@@ -1,5 +1,10 @@
+/**
+ * Created by mohma on 7/27/2017.
+ */
+import { OnChanges, SimpleChanges } from "@angular/core";
 import { Ng2ListViewCRUDProperty } from "./listview-crud";
-export declare class Ng2ListViewCRUDComponent {
+export declare class Ng2ListViewCRUDComponent implements OnChanges {
+    ngOnChanges(changes: SimpleChanges): void;
     value: string;
     search: string;
     opType: string;

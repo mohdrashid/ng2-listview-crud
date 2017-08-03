@@ -1,7 +1,7 @@
 /**
  * Created by mohma on 7/27/2017.
  */
-import {Component, Input} from "@angular/core";
+import {Component, Input, OnChanges, SimpleChanges} from "@angular/core";
 import {NgFor} from "@angular/common";
 import { Ng2ListViewCRUDProperty} from "./listview-crud";
 declare let $:any;
@@ -13,7 +13,10 @@ declare let $:any;
   styleUrls: ['./listview-crud.scss']
 })
 
-export class Ng2ListViewCRUDComponent {
+export class Ng2ListViewCRUDComponent implements OnChanges {
+  ngOnChanges(changes: SimpleChanges): void {
+    this.subData=this.items;
+  }
   public value:string="";
   public search:string="";
   public opType:string="Add";
