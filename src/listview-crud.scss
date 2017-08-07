@@ -1,19 +1,13 @@
+/**
+NG2-Listview-CRUD
+Author: Mohammed Rashid
+Github: https://github.com/mohdrashid
+ */
 .selected{
   background: bisque;
 }
-/*Todo List Widget*/
 
-.todo-list-item .glyphicon {
-  margin-right:5px;
-  color: #9fadbb;
-}
-
-.todo-list-item .glyphicon:hover {
-  margin-right:5px;
-  color: #1b3548;
-}
-
-.todo-list {
+.ng2-listview {
   padding: 0;
   margin: -15px;
   background: #fff;
@@ -24,7 +18,7 @@
   margin: 0;
 }
 
-.todo-list .checkbox {
+.ng2-listview .checkbox {
   display:inline-block;
   margin: 0px;
 }
@@ -34,18 +28,18 @@
   color: #777;
 }
 
-.todo-list-item {
+.ng2-listview-item {
   list-style: none;
   line-height: 0.9;
   padding: 14px 15px 8px 15px;
 }
 
-.todo-list-item:hover, a.todo-list-item:focus {
+.ng2-listview-item:hover, a.ng2-listview-item:focus {
   text-decoration: none;
   background-color: #f6f6f6;
 }
 
-.todo-list-item .trash .glyph:hover {
+.ng2-listview-item .trash .glyph:hover {
   color: #ef4040;
 }
 

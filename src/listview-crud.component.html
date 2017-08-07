@@ -4,8 +4,8 @@
   </div>
   <input type="text" class="form-control searchBoxListView" placeholder="Search...." [(ngModel)]="search" (keyup)="onChangeListener($event)">
   <div class="panel-body">
-    <ul class="todo-list">
-      <li *ngFor="let item of subData; index as i" class="todo-list-item" [id]="i" >
+    <ul class="ng2-listview">
+      <li *ngFor="let item of subData; index as i" class="ng2-listview-item" [id]="i" >
 
         {{getData(item)}}
         <div class="pull-right action-buttons">

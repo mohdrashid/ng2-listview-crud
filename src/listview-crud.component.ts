@@ -48,7 +48,7 @@ export class Ng2ListViewCRUDComponent implements OnChanges {
 
   ngAfterViewInit() {
     let self=this;
-    $('ul').on('click','li', function() {
+    $('ul.ng2-listview').on('click','li', function() {
       $('.selected').removeClass('selected');
       if ( $(this).hasClass('selected') ) {
         $(this).removeClass('selected');
